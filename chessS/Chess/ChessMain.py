@@ -27,10 +27,29 @@ def main():
     #then we load our images before the work
     loadImages()
     ttrue = True
+    sqSelected = ()
+    playerClicks = []
     while ttrue:
         for e in p.event.get():
             if e.type == p.QUIT:
                 ttrue = False
+            elif e.type == p.MOUSEBUTTONDOWN :
+                location = p.mouse.get_pos()
+                col = location[0] // SQ_SZ
+                row = location[1] // SQ_SZ
+                if sqSelected == (row,col):
+                    sqSelected = ()
+                    playerClicks = []
+                else:
+                    sqSelected = (row,col)
+                    playerClicks.append(sqSelected)
+                if len(playerClicks) == 2:
+                    move = ChessEngine.Move(playerClicks[0], playerClicks[1], gs.board)
+                    print(move.getChessNotation())
+                    gs.makeMove(move)
+                    sqSelected = ()
+                    playerClicks = []
+
         drawGameState(screen,gs)
         clock.tick(MAX_FPS)
         p.display.flip()
