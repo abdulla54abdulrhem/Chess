@@ -222,7 +222,7 @@ class Move():
         self.pieceMoved = board[self.startRow][self.startCol]
         self.pieceCaptured = board[self.endRow][self.endCol]
         self.moveID = self.startRow * 1000 + self.startCol * 100 + self.endRow * 10 + self.endCol
-        print(self.moveID)
+        #print(self.moveID)
     #overriding the equals method
     def __eq__(self,other):
         if isinstance(other,Move):
@@ -235,4 +235,4 @@ class Move():
 
     def getRankFile(self, r, c):
 
-        return self.colsToFiles[c] + self.rowsToRanks[r]
+        return self.colsToFiles[c] + self.rowsToRanks[r];

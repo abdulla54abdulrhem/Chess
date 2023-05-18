@@ -6,7 +6,7 @@ from Chess import ChessEngine
 HEIGHT = WIDTH = 512
 DIMENSION = 8
 SQ_SZ = HEIGHT // DIMENSION
-MAX_FPS = 30
+MAX_FPS = 15
 IMAGES = {}
 
 #in the start of the program we will load the images needed
@@ -32,6 +32,7 @@ def main():
     sqSelected = ()
     playerClicks = []
     validMoves = gs.getValidMoves()
+
     while ttrue:
 
         for e in p.event.get():
@@ -50,16 +51,14 @@ def main():
                     playerClicks.append(sqSelected)
 
                 if len(playerClicks) == 2:
-
                     move = ChessEngine.Move(playerClicks[0], playerClicks[1], gs.board)
                     if move in validMoves:
                         gs.makeMove(move)
-                        validMoves = gs.getValidMoves()
-
-                    print(move.getChessNotation())
-
+                        moveMade = True
                     sqSelected = ()
                     playerClicks = []
+                    print('start new clicks now')
+
             #key handler
             elif e.type == p.KEYDOWN:
                 if e.key == p.K_z:
