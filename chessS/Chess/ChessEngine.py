@@ -1,5 +1,5 @@
 class GameState():
-    def __init__(self):
+    def _init_(self):
         self.board = [
             ["bR", "bN", "bB", "bQ", "bK", "bB", "bN", "bR"],
             ["bp", "bp", "bp", "bp", "bp", "bp", "bp", "bp"],
@@ -72,7 +72,8 @@ class GameState():
             #ubdo a 2 sq pawn adv
             if move.pieceMoved[1]  == 'p' and abs(move.startRow - move.endRow) == 2:
                 self.enpassantPossible = ()
-
+            self.checkMate = False
+            self.staleMate = False
 
 
 
@@ -303,7 +304,7 @@ class Move():
     filesToCols = {"a": 0, "b": 1, "c": 2, "d": 3, "e": 4, "f": 5, "g": 6, "h": 7}
     colsToFiles = {v: k for k, v in filesToCols.items()}
 
-    def __init__(self , startSq , endSq ,board, enpassantPossible = False):
+    def _init_(self , startSq , endSq ,board, enpassantPossible = False):
         self.startRow = startSq[0]
         self.startCol = startSq[1]
         self.endRow = endSq[0]
@@ -320,7 +321,7 @@ class Move():
         self.moveID = self.startRow * 1000 + self.startCol * 100 + self.endRow * 10 + self.endCol
         #print(self.moveID)
     #overriding the equals method
-    def __eq__(self,other):
+    def _eq_(self,other):
         if isinstance(other,Move):
             return self.moveID == other.moveID
         return False
