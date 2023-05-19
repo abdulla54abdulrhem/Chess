@@ -1,7 +1,7 @@
 #get input and display the current state
 
 import pygame as p
-from Chess import ChessEngine
+import ChessEngine
 
 HEIGHT = WIDTH = 512
 DIMENSION = 8
@@ -25,7 +25,7 @@ def main():
     gs = ChessEngine.GameState()
 
     moveMade = False #flag for when a move is made
-    print(gs.board)
+##############################################################################print(gs.board)
     #then we load our images before the work
     loadImages()
     ttrue = True
