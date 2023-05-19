@@ -43,6 +43,19 @@ def main():
             #mouse handler
             elif e.type == p.MOUSEBUTTONDOWN :
                 if humanTurn:
+                    agentMove = chessAI.findBestMoveMinMax(gs,validMoves,1000,-1000)
+                    if agentMove is None:
+                        if len(validMoves) > 0:
+                            agentMove = chessAI.findRandomMove(validMoves)
+                        else:
+                            if gs.whiteMove:
+                                print("Game over, black is the winner")
+                            else:
+                                print ("Game over, white is the winner")
+                            break
+                    gs.makeMove(agentMove)
+                    moveMade = True
+                    """"
                     location = p.mouse.get_pos()
                     col = location[0] // SQ_SZ
                     row = location[1] // SQ_SZ
@@ -55,12 +68,14 @@ def main():
 
                     if len(playerClicks) == 2:
                         move = ChessEngine.Move(playerClicks[0], playerClicks[1], gs.board)
+
                         if move in validMoves:
                             gs.makeMove(move)
                             moveMade = True
                         sqSelected = ()
                         playerClicks = []
                         print('start new clicks now')
+                        """
 
             #key handler
             elif e.type == p.KEYDOWN:
@@ -68,7 +83,17 @@ def main():
                     gs.undoMove()
                     moveMade = True
         if not humanTurn:
-            ComputerMove = chessAI.findRandomMove(validMoves)
+
+            ComputerMove = chessAI.findBestMoveGreedy(gs,validMoves)
+            if ComputerMove is None:
+                if len(validMoves) > 0:
+                    ComputerMove = chessAI.findRandomMove(validMoves)
+                else:
+                    if gs.whiteMove:
+                        print("Game over, black is the winner")
+                    else:
+                        print("Game over, white is the winner")
+                    break
             gs.makeMove(ComputerMove)
             moveMade = True
         if moveMade:
@@ -96,5 +121,5 @@ def drawGameState(screen,gameState):
     drawBoard(screen)
     drawPieces(screen,gameState.board)
 
-if __name__ == "__main__":
+if _name_ == "_main_":
     main()
