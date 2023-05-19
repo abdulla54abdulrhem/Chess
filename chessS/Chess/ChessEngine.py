@@ -26,7 +26,7 @@ class GameState():
         self.board[move.endRow][move.endCol] = move.pieceMoved
         self.moveLog.append(move)
         self.whiteMove = not self.whiteMove
-###############################################################################print("white move now is ",self.whiteMove)
+        print("white move now is ",self.whiteMove)
         # update the King Location
         if move.pieceMoved == "wK":
             self.whiteKingLocation = (move.endRow, move.endCol)

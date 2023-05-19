@@ -2,7 +2,7 @@
 
 import pygame as p
 import ChessEngine
-
+import chessAI
 HEIGHT = WIDTH = 512
 DIMENSION = 8
 SQ_SZ = HEIGHT // DIMENSION
@@ -32,38 +32,45 @@ def main():
     sqSelected = ()
     playerClicks = []
     validMoves = gs.getValidMoves()
-
+    playerOne = True # if human or agent is playing white this is true, if computer is playing this is false
+    playerTwo = False
     while ttrue:
+        humanTurn = (gs.whiteMove and playerOne) or (not gs.whiteMove and playerTwo)
 
         for e in p.event.get():
             if e.type == p.QUIT:
                 ttrue = False
             #mouse handler
             elif e.type == p.MOUSEBUTTONDOWN :
-                location = p.mouse.get_pos()
-                col = location[0] // SQ_SZ
-                row = location[1] // SQ_SZ
-                if sqSelected == (row,col):
-                    sqSelected = ()
-                    playerClicks = []
-                else:
-                    sqSelected = (row,col)
-                    playerClicks.append(sqSelected)
+                if humanTurn:
+                    location = p.mouse.get_pos()
+                    col = location[0] // SQ_SZ
+                    row = location[1] // SQ_SZ
+                    if sqSelected == (row,col):
+                        sqSelected = ()
+                        playerClicks = []
+                    else:
+                        sqSelected = (row,col)
+                        playerClicks.append(sqSelected)
 
-                if len(playerClicks) == 2:
-                    move = ChessEngine.Move(playerClicks[0], playerClicks[1], gs.board)
-                    if move in validMoves:
-                        gs.makeMove(move)
-                        moveMade = True
-                    sqSelected = ()
-                    playerClicks = []
-                    print('start new clicks now')
+                    if len(playerClicks) == 2:
+                        move = ChessEngine.Move(playerClicks[0], playerClicks[1], gs.board)
+                        if move in validMoves:
+                            gs.makeMove(move)
+                            moveMade = True
+                        sqSelected = ()
+                        playerClicks = []
+                        print('start new clicks now')
 
             #key handler
             elif e.type == p.KEYDOWN:
                 if e.key == p.K_z:
                     gs.undoMove()
                     moveMade = True
+        if not humanTurn:
+            ComputerMove = chessAI.findRandomMove(validMoves)
+            gs.makeMove(ComputerMove)
+            moveMade = True
         if moveMade:
             validMoves = gs.getValidMoves()
             moveMade = False
